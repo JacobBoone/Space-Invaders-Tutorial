@@ -33,21 +33,40 @@ function Sprite (img, x, y, w, h) {
 	this.y = y;
 	this.w = w;
 	this.h = h;
-	
+
 };
 
 
 
 
 // Inputhandler
-function InputHandler (argument) {
-	// body...
-}
+function InputHandler () {
+ 	this.down = {};
+ 	this.pressed = {};
+
+ 	var _this = this;
+ 	document.addEventListener("keydown", function(evt){
+ 		_this.down[evt.keyCode] = true;
+ 	});
+ 	document.addEventListener("keyup", function(evt){
+ 		delete _this.down[evt.keyCode];
+ 		delete _this.pressed[evt.keyCode];
+
+ 	});
+};
 Inputhandler.prototype.isDown = function(code){
+	return this.down[code];
 
 };
-Inputhandler.prototype.isPressed = function(code){
 
+Inputhandler.prototype.isPressed = function(code){
+	if (this.presses[code]){
+		return false;
+	}
+	else if (this.down[code]){
+		return this.pressed[code] = true;
+	}
+	return false;
 };
 
 
